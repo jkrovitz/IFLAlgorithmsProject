@@ -5,7 +5,7 @@
  */
 import java.util.Scanner;
 
-public class AlphaCode { //get rid of ConsoleProgram
+public class AlphaCode { 
     public static void main (String args[]){
         AlphaCode ac = new AlphaCode();
         ac.userQuestions();
