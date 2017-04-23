@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class AlphaCode {
@@ -16,6 +18,7 @@ public class AlphaCode {
     public static void main(String args[]){
         AlphaCode ac = new AlphaCode();
         ac.userQuestions();
+        ac.DoTheSort();
         ac.paint(img);
     }
 
@@ -26,7 +29,7 @@ public class AlphaCode {
     private boolean sortBigToSmall;
     static BufferedImage img = null;
 
-    public void loadImage(String imageName){
+    private void loadImage(String imageName){
         try {
             img = ImageIO.read(new File(imageName));
         } catch (IOException e) {
@@ -34,11 +37,14 @@ public class AlphaCode {
     }
 
     public void paint(BufferedImage pic) {
-        Graphics g = pic.getGraphics();
-        g.drawImage(img,50,50,null);
+        try {
+            File outputfile = new File("C:\\Users\\Luke\\Pictures\\savedAndSorted.jpg");
+            ImageIO.write(pic, "jpg", outputfile);
+        } catch (IOException e) {
+        }
     }
 
-    public void userQuestions() {
+    private void userQuestions() {
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         System.out.println("Enter an image file path to pixel sort:");
         String imageName = reader.next(); // Scans the next token of the input.
@@ -49,7 +55,7 @@ public class AlphaCode {
         //ask for by which value: RGB, hue, saturation, or brightness
         System.out.println("Enter 1 for an RGB value, 2 for hue, 3 for saturation, and 4 for brightness.");
         sortValueChosen = reader.nextInt();
-        if (sortValueChosen==1){
+        if (sortValueChosen == 1) {
             System.out.println("enter 5 for Red, 6 for Blue, and 7 for Green.");
             sortValueChosen = reader.nextInt();
         }
@@ -61,18 +67,16 @@ public class AlphaCode {
         if (sortStyle == 2) {
             System.out.println("How size of chunks?"); //check for what size
             sortAttribute1 = reader.nextInt();
-        }
-        else if (sortStyle == 3) {
+        } else if (sortStyle == 3) {
             System.out.println("What minimum size of chunks?");
             sortAttribute1 = reader.nextInt();
             System.out.println("What maximum size of chunks?");
             sortAttribute2 = reader.nextInt();
-        }
-        else if (sortStyle == 4){
+        } else if (sortStyle == 4) {
             //ask for what tolerance for the chosen value.
             System.out.println("What tolerance (degree of variation) do you allow?");
             sortAttribute1 = reader.nextInt();
-        }else if (sortStyle == 5) {
+        } else if (sortStyle == 5) {
             //ask for what what min and max values for the range for the chosen value.
             System.out.println("What minimum value?");
             sortAttribute1 = reader.nextInt();
@@ -80,6 +84,52 @@ public class AlphaCode {
             sortAttribute2 = reader.nextInt();
         }
     }
+    private void DoTheSort(){
+        if (sortStyle==1){
+            int imgWidth = img.getWidth();
+            int imgHeight = img.getHeight();
+            if(sortValueChosen>=5){
+                sortRGB(imgWidth, imgHeight);
+                }
+            }
+        }
 
-
+    private void sortRGB(int wide, int high){
+        int CurrentRowIndex = 0;
+        for (int i = 0; i < high; i++) {
+            CurrentRowIndex = wide * i;
+            int arr[] = img.getRGB(0,i,wide,1,null,0,wide);
+            Color[] ColorArr = new Color[wide];
+            for (int j = 0; j < arr.length; j++) {
+                ColorArr[j] = new Color(arr[j]);
+            }
+            if (sortValueChosen==5){
+                Arrays.sort(ColorArr, new Comparator<Color>() {
+                    @Override
+                    public int compare(Color o1, Color o2) {
+                        return o1.getRed()-o2.getRed();
+                    }
+                });
+            }else if (sortValueChosen==6){
+                Arrays.sort(ColorArr, new Comparator<Color>() {
+                    @Override
+                    public int compare(Color o1, Color o2) {
+                        return o1.getBlue()-o2.getBlue();
+                    }
+                });
+            }else{
+                Arrays.sort(ColorArr, new Comparator<Color>() {
+                    @Override
+                    public int compare(Color o1, Color o2) {
+                        return o1.getBlue()-o2.getBlue();
+                    }
+                });
+            }
+            int[] sortedArr = new int[wide];
+            for (int k = 0; k < arr.length; k++) {
+                sortedArr[k] = ColorArr[k].getRGB();
+            }
+            img.setRGB(0,i,wide,1,sortedArr,0,wide);
+        }
+    }
 }
