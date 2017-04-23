@@ -4,6 +4,7 @@
  * Created by Luke on 4/10/2017.
  */
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +12,11 @@ import java.util.Scanner;
 
 public class AlphaCode {
 
-    public static void main (String args[]){
+
+    public static void main(String args[]){
         AlphaCode ac = new AlphaCode();
         ac.userQuestions();
+        ac.paint(img);
     }
 
     private int sortStyle;
@@ -21,13 +24,18 @@ public class AlphaCode {
     private int sortAttribute1;
     private int sortAttribute2;
     private boolean sortBigToSmall;
-    BufferedImage img = null;
+    static BufferedImage img = null;
 
     public void loadImage(String imageName){
         try {
             img = ImageIO.read(new File(imageName));
         } catch (IOException e) {
         }
+    }
+
+    public void paint(BufferedImage pic) {
+        Graphics g = pic.getGraphics();
+        g.drawImage(img,50,50,null);
     }
 
     public void userQuestions() {
