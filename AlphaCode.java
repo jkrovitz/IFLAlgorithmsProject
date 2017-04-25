@@ -1,5 +1,6 @@
 /**
  * This is the master file for the first build of the project.
+ * May the Gods be merciful on us.
  *
  * Created by Luke on 4/10/2017.
  */
@@ -85,7 +86,7 @@ public class AlphaCode {
         sortDirection = reader.nextInt();
 
         if (sortStyle == 2) {
-            System.out.println("How size of chunks?"); //check for what size
+            System.out.println("What size of chunks (as squares)?"); //check for what size
             sortAttribute1 = reader.nextInt();
         } else if (sortStyle == 3) {
             System.out.println("What minimum size of chunks?");
@@ -113,13 +114,19 @@ public class AlphaCode {
             int imgWidth = img.getWidth();
             int imgHeight = img.getHeight();
             if (sortValueChosen >= 5) {
-                sortRGB(imgWidth, imgHeight);
+                if (sortDirection == 1) sortRGBHoriz(imgWidth, imgHeight);
+                else sortRGBVert(imgWidth, imgHeight);
             }
         }
     }
 
-    private void sortRGB(int wide, int high) {
-        if (sortDirection == 1) {
+    /**
+     * This does RGB sorting in a horizontal direction.
+     *
+     * @param wide
+     * @param high
+     */
+    private void sortRGBHoriz(int wide, int high) {
             for (int i = 0; i < high; i++) {
                 int arr[] = img.getRGB(0, i, wide, 1, null, 0, wide);
                 Color[] ColorArr = new Color[wide];
@@ -130,21 +137,24 @@ public class AlphaCode {
                     Arrays.sort(ColorArr, new Comparator<Color>() {
                         @Override
                         public int compare(Color o1, Color o2) {
-                            return o1.getRed() - o2.getRed();
+                            if(sortBigToSmall) return o1.getRed() - o2.getRed();
+                            else return o2.getRed() - o1.getRed();
                         }
                     });
                 } else if (sortValueChosen == 6) {
                     Arrays.sort(ColorArr, new Comparator<Color>() {
                         @Override
                         public int compare(Color o1, Color o2) {
-                            return o1.getBlue() - o2.getBlue();
+                            if(sortBigToSmall) return o1.getGreen() - o2.getGreen();
+                            else return o2.getGreen() - o1.getGreen();
                         }
                     });
                 } else {
                     Arrays.sort(ColorArr, new Comparator<Color>() {
                         @Override
                         public int compare(Color o1, Color o2) {
-                            return o1.getBlue() - o2.getBlue();
+                            if(sortBigToSmall) return o1.getBlue() - o2.getBlue();
+                            else return o2.getBlue() - o1.getBlue();
                         }
                     });
                 }
@@ -154,7 +164,14 @@ public class AlphaCode {
                 }
                 img.setRGB(0, i, wide, 1, sortedArr, 0, wide);
             }
-        } else {//Do the whole thing 1 column at a time
+        }
+
+    /**
+     * This does RGB sorting in a vertical direction.
+     * @param wide
+     * @param high
+     */
+    private void sortRGBVert(int wide, int high) {
             for (int i = 0; i < wide; i++) {//iterate over each column, building an array of pixel colors in ints
                 int[] arr = new int[high];
                 for (int h = 0; h < high; h++) {
@@ -168,29 +185,30 @@ public class AlphaCode {
                     Arrays.sort(ColorArr, new Comparator<Color>() {
                         @Override
                         public int compare(Color o1, Color o2) {
-                            return o1.getRed() - o2.getRed();
+                            if(sortBigToSmall) return o1.getRed() - o2.getRed();
+                            else return o2.getRed() - o1.getRed();
                         }
                     });
                 } else if (sortValueChosen == 6) {
                     Arrays.sort(ColorArr, new Comparator<Color>() {
                         @Override
                         public int compare(Color o1, Color o2) {
-                            return o1.getBlue() - o2.getBlue();
+                            if(sortBigToSmall) return o1.getGreen() - o2.getGreen();
+                            else return o2.getGreen() - o1.getGreen();
                         }
                     });
                 } else {
                     Arrays.sort(ColorArr, new Comparator<Color>() {
                         @Override
                         public int compare(Color o1, Color o2) {
-                            return o1.getBlue() - o2.getBlue();
+                            if(sortBigToSmall) return o1.getBlue() - o2.getBlue();
+                            else return o2.getBlue() - o1.getBlue();
                         }
                     });
                 }//Now, put the sorted Colors back into their columns
                 for (int k = 0; k < arr.length; k++) {
                     img.setRGB(i,k,ColorArr[k].getRGB());
                 }
-
             }
         }
     }
-}
