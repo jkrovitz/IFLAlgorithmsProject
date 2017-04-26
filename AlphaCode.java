@@ -75,7 +75,7 @@ public class AlphaCode {
         System.out.println("Enter 1 for an RGB value, 2 for hue, 3 for saturation, and 4 for brightness.");
         sortValueChosen = reader.nextInt();
         if (sortValueChosen == 1) {
-            System.out.println("enter 5 for Red, 6 for Blue, and 7 for Green.");
+            System.out.println("enter 5 for Red, 6 for Green, and 7 for Blue.");
             sortValueChosen = reader.nextInt();
         }
         System.out.println("Sort Biggest to Smallest value (enter boolean)?");
@@ -114,10 +114,11 @@ public class AlphaCode {
             int imgWidth = img.getWidth();
             int imgHeight = img.getHeight();
             if (sortValueChosen >= 5) {
-                if (sortDirection == 1) sortRGBHoriz(imgWidth, imgHeight);
-                else sortRGBVert(imgWidth, imgHeight);
+                if (sortDirection == 1) sortRGBHoriz(imgWidth, imgHeight,0,0);
+                else sortRGBVert(imgWidth, imgHeight,0,0);
             }
-        }
+        }else if (sortStyle==2) tileSort();
+
     }
 
     /**
@@ -126,9 +127,12 @@ public class AlphaCode {
      * @param wide
      * @param high
      */
-    private void sortRGBHoriz(int wide, int high) {
+    private void sortRGBHoriz(int wide, int high, int TopLeftX, int TopLeftY) {
             for (int i = 0; i < high; i++) {
-                int arr[] = img.getRGB(0, i, wide, 1, null, 0, wide);
+                int[] arr = new int[wide];
+                for (int h = 0; h < wide; h++) {//Iteratate over each pixel in the column.
+                    arr[h] = img.getRGB(h+TopLeftX,i+TopLeftY);
+                }
                 Color[] ColorArr = new Color[wide];
                 for (int j = 0; j < arr.length; j++) {
                     ColorArr[j] = new Color(arr[j]);
@@ -158,11 +162,9 @@ public class AlphaCode {
                         }
                     });
                 }
-                int[] sortedArr = new int[wide];
                 for (int k = 0; k < arr.length; k++) {
-                    sortedArr[k] = ColorArr[k].getRGB();
+                    img.setRGB(k+TopLeftX,i+TopLeftY,ColorArr[k].getRGB());
                 }
-                img.setRGB(0, i, wide, 1, sortedArr, 0, wide);
             }
         }
 
@@ -171,11 +173,11 @@ public class AlphaCode {
      * @param wide
      * @param high
      */
-    private void sortRGBVert(int wide, int high) {
+    private void sortRGBVert(int wide, int high, int TopLeftX, int TopLeftY) {
             for (int i = 0; i < wide; i++) {//iterate over each column, building an array of pixel colors in ints
                 int[] arr = new int[high];
-                for (int h = 0; h < high; h++) {
-                    arr[h] = img.getRGB(i,h);
+                for (int h = 0; h < high; h++) {//Iteratate over each pixel in the column.
+                    arr[h] = img.getRGB(i+TopLeftX,h+TopLeftY);
                 }//create a new array of Color objects, for each pixel
                 Color[] ColorArr = new Color[high];
                 for (int j = 0; j < ColorArr.length; j++) {
@@ -207,8 +209,39 @@ public class AlphaCode {
                     });
                 }//Now, put the sorted Colors back into their columns
                 for (int k = 0; k < arr.length; k++) {
-                    img.setRGB(i,k,ColorArr[k].getRGB());
+                    img.setRGB(i+TopLeftX,k+TopLeftY,ColorArr[k].getRGB());
                 }
             }
         }
+
+    /**
+     * This function handles the options for any kind of tile sort.
+     */
+    private void tileSort(){
+        //First, check that the user did not put too big of a chunk size (extra chunky).
+        if (sortAttribute1>img.getWidth() || sortAttribute1>img.getHeight()) {
+            if (sortValueChosen >= 5) {
+                if (sortDirection == 1) sortRGBHoriz(img.getWidth(), img.getHeight(), 0, 0);
+                else sortRGBVert(img.getWidth(), img.getHeight(), 0, 0);
+            }//Now, we get down to the business of subdividing chunks of the image at a time to do.
+        }else{
+            if(sortValueChosen>=5){
+                for (int i = 0; i < img.getHeight()/sortAttribute1; i++) {//For each row of tiles
+                    for (int j = 0; j < img.getWidth()/sortAttribute1; j++) {//For each tile in that row
+                        if (sortDirection == 1) sortRGBHoriz(sortAttribute1, sortAttribute1,j*sortAttribute1,i*sortAttribute1);
+                        else sortRGBVert(sortAttribute1, sortAttribute1,j*sortAttribute1,i*sortAttribute1);
+
+                    }//Now, cover the left edge partial tiles
+                    if (sortDirection == 1) sortRGBHoriz(img.getWidth()%sortAttribute1, sortAttribute1, img.getWidth() - (img.getWidth()%sortAttribute1),i*sortAttribute1);
+                    else sortRGBVert(img.getWidth()%sortAttribute1, sortAttribute1, img.getWidth() - (img.getWidth()%sortAttribute1),i*sortAttribute1);
+                }//Now, cover the bottom edge partial tiles
+                for (int j = 0; j < img.getWidth()/sortAttribute1; j++) {
+                    if (sortDirection == 1) sortRGBHoriz(sortAttribute1, img.getHeight()%sortAttribute1,j*sortAttribute1,img.getHeight() - (img.getHeight()%sortAttribute1));
+                    else sortRGBVert(sortAttribute1, img.getHeight()%sortAttribute1,j*sortAttribute1,img.getHeight() - (img.getHeight()%sortAttribute1));
+                }//Finally, the complicated mess of a line or two that gives us the bottom right corner tile
+                if (sortDirection == 1) sortRGBHoriz(img.getWidth()%sortAttribute1, img.getHeight()%sortAttribute1,img.getWidth() - (img.getWidth()%sortAttribute1),img.getHeight() - (img.getHeight()%sortAttribute1));
+                else sortRGBVert(img.getWidth()%sortAttribute1, img.getHeight()%sortAttribute1,img.getWidth() - (img.getWidth()%sortAttribute1),img.getHeight() - (img.getHeight()%sortAttribute1));
+            }
+        }
+    }
     }
