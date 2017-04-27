@@ -1,6 +1,6 @@
 /**
- * This is the master file for the first build of the project.
- * May the Gods be merciful on us.
+ * Forloopers Forever!!!
+ * Because we're just invincible like that! 
  *
  * Created by Luke on 4/10/2017.
  */
