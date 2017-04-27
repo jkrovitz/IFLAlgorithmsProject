@@ -113,10 +113,8 @@ public class AlphaCode {
         if (sortStyle == 1) {
             int imgWidth = img.getWidth();
             int imgHeight = img.getHeight();
-            if (sortValueChosen >= 5) {
-                if (sortDirection == 1) sortHoriz(imgWidth, imgHeight,0,0);
-                else sortVert(imgWidth, imgHeight,0,0);
-            }
+            if (sortDirection == 1) sortHoriz(imgWidth, imgHeight,0,0);
+            else sortVert(imgWidth, imgHeight,0,0);
         }else if (sortStyle==2) tileSort();
 
     }
@@ -156,32 +154,39 @@ public class AlphaCode {
                             if (sortValueChosen==2){//Check Hue
                                 if (sortBigToSmall) {
                                     float ans = (o1hsb[0]-o2hsb[0]);
+                                    System.out.println(ans);
                                     if (ans<0) return -1;
-                                    else return 1;
+                                    else if (ans>0) return 1;
+                                    else return 0;
                                 }else {
                                     float ans = (o2hsb[0] - o1hsb[0]);
                                     if (ans < 0) return -1;
-                                    else return 1;
+                                    else if (ans>0) return 1;
+                                    else return 0;
                                 }
                             }else if (sortValueChosen==3){//Check Saturation
                                 if (sortBigToSmall) {
                                     float ans = (o1hsb[1]-o2hsb[1]);
                                     if (ans<0) return -1;
-                                    else return 1;
+                                    else if (ans>0) return 1;
+                                    else return 0;
                                 }else {
                                     float ans = (o2hsb[1] - o1hsb[1]);
                                     if (ans < 0) return -1;
-                                    else return 1;
+                                    else if (ans>0) return 1;
+                                    else return 0;
                                 }
                             }if (sortValueChosen==4){//Check Brightness
                                 if (sortBigToSmall) {
                                     float ans = (o1hsb[2]-o2hsb[2]);
                                     if (ans<0) return -1;
-                                    else return 1;
+                                    else if (ans>0) return 1;
+                                    else return 0;
                                 }else {
                                     float ans = (o2hsb[2] - o1hsb[2]);
                                     if (ans < 0) return -1;
-                                    else return 1;
+                                    else if (ans>0) return 1;
+                                    else return 0;
                                 }
                             }return 0; //A catch if all us breaks down somehow
                         }
@@ -229,31 +234,37 @@ public class AlphaCode {
                                     if (sortBigToSmall) {
                                         float ans = (o1hsb[0]-o2hsb[0]);
                                         if (ans<0) return -1;
-                                        else return 1;
+                                        else if (ans>0) return 1;
+                                        else return 0;
                                     }else {
                                         float ans = (o2hsb[0] - o1hsb[0]);
                                         if (ans < 0) return -1;
-                                        else return 1;
+                                        else if (ans>0) return 1;
+                                        else return 0;
                                     }
                                 }else if (sortValueChosen==3){//Check Saturation
                                     if (sortBigToSmall) {
                                         float ans = (o1hsb[1]-o2hsb[1]);
                                         if (ans<0) return -1;
-                                        else return 1;
+                                        else if (ans>0) return 1;
+                                        else return 0;
                                     }else {
                                         float ans = (o2hsb[1] - o1hsb[1]);
                                         if (ans < 0) return -1;
-                                        else return 1;
+                                        else if (ans>0) return 1;
+                                        else return 0;
                                     }
                                 }if (sortValueChosen==4){//Check Brightness
                                     if (sortBigToSmall) {
                                         float ans = (o1hsb[2]-o2hsb[2]);
                                         if (ans<0) return -1;
-                                        else return 1;
+                                        else if (ans>0) return 1;
+                                        else return 0;
                                     }else {
                                         float ans = (o2hsb[2] - o1hsb[2]);
                                         if (ans < 0) return -1;
-                                        else return 1;
+                                        else if (ans>0) return 1;
+                                        else return 0;
                                     }
                                 }return 0; //A catch if all us breaks down somehow
                             }
