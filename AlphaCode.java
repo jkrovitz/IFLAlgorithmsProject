@@ -299,7 +299,7 @@ public class AlphaCode {
                     ColorArr[j] = new Color(arr[j]);
                 }//call a helper function to do the sort of the array, then put the values back in the image.
                 Color[] c2 = SortBySubarray(ColorArr);
-                for (int k = 0; k < arr.length; k++) {
+                for (int k = 0; k < c2.length; k++) {
                     img.setRGB(i,k,c2[k].getRGB());
                 }
             }
@@ -313,8 +313,7 @@ public class AlphaCode {
      */
     private Color[] SortBySubarray(Color[] c){
         int start = -1;
-        boolean going = false;
-        float current_value = 0;
+        float current_value;
         Color[] sortedc = new Color[c.length];
         Color[] tempArray;
         for (int i = 0; i < c.length; i++) {
@@ -329,15 +328,18 @@ public class AlphaCode {
             }//OK, now we;ve gotten whatever the hell value we wanted.
             if (current_value>sortAttribute1 && current_value<sortAttribute2) {
                 sortedc[i] = c[i];
-                if (going){
+                System.out.println(i);
+                if (start!=-1){
                     tempArray = Arrays.copyOfRange(c,start,i);
                     Arrays.sort(tempArray,MyComparator);
                     for (int j = 0; j < tempArray.length; j++) {
                         sortedc[start+j] = tempArray[j];
                     }
+                    start=-1;
                 }
+            }else{
+                if (start==-1) start=i;
             }
-        }
-        return sortedc;
+        }return sortedc;
     }
 }
