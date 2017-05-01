@@ -285,7 +285,7 @@ public class AlphaCode {
                     ColorArr[j] = new Color(arr[j]);
                 }//call a helper function to do the sort of the array, then put the values back in the image.
                 Color[] c2 = SortBySubarray(ColorArr);
-                for (int k = 0; k < c2.length; k++) {
+                for (int k = 0; k < wide; k++) {
                     img.setRGB(k,i,c2[k].getRGB());
                 }
             }
@@ -293,7 +293,7 @@ public class AlphaCode {
             for (int i = 0; i < wide; i++) {
                 int[] arr = new int[high];
                 for (int h = 0; h < high; h++) {//Iterate over each pixel in the column.
-                    arr[h] = img.getRGB(h, i);
+                    arr[h] = img.getRGB(i, h);
                 }Color[] ColorArr = new Color[high];//new color array
                 for (int j = 0; j < arr.length; j++) {
                     ColorArr[j] = new Color(arr[j]);
@@ -325,17 +325,15 @@ public class AlphaCode {
                 if (sortValueChosen==2) current_value = hsbval[0];
                 else if (sortValueChosen==3) current_value = hsbval[1];
                 else current_value = hsbval[3];
-            }//OK, now we;ve gotten whatever the hell value we wanted.
-            if (current_value>sortAttribute1 && current_value<sortAttribute2) {
+            }//OK, now we've gotten whatever the hell value we wanted.
+            if (current_value<sortAttribute1 || current_value>sortAttribute2 || i==c.length-1) {//if the pixel value is outside the range that needs sorted
                 sortedc[i] = c[i];
-                System.out.println(i);
-                if (start!=-1){
+                if (start!=-1){//sort, then fill in all pixels in the previous set that were within bounds
                     tempArray = Arrays.copyOfRange(c,start,i);
                     Arrays.sort(tempArray,MyComparator);
                     for (int j = 0; j < tempArray.length; j++) {
                         sortedc[start+j] = tempArray[j];
-                    }
-                    start=-1;
+                    }start=-1;
                 }
             }else{
                 if (start==-1) start=i;
