@@ -1,6 +1,10 @@
 /**
  * Forloopers Forever!!!
- * Because we're just invincible like that! 
+ * Because we're just invincible like that!
+ * - Jeremy, probably
+ *
+ * Shove it up your hashtable.
+ * -Luke, shortly after
  *
  * Created by Luke on 4/10/2017.
  */
@@ -15,7 +19,6 @@ import java.util.Scanner;
 
 public class AlphaCode {
 
-
     /**
      * This is the part that actually runs, but mostly it just calls the DoTheSort fxn.
      *
@@ -28,6 +31,7 @@ public class AlphaCode {
         ac.paint(img);
     }
 
+    //Hey, Look! Variable initializers!!! Aren't they cute...
     private int sortStyle;
     private int sortValueChosen;
     private int sortAttribute1;
@@ -124,7 +128,6 @@ public class AlphaCode {
         } else if (sortStyle == 2) tileSort();
         else if (sortStyle == 4) doEdgeSort();
         else if (sortStyle == 5) doRangeSort();
-
     }
 
     /**
@@ -148,45 +151,26 @@ public class AlphaCode {
                 Color.RGBtoHSB(o1.getRed(), o1.getGreen(), o1.getBlue(), o1hsb);
                 float[] o2hsb = new float[3];
                 Color.RGBtoHSB(o2.getRed(), o2.getGreen(), o2.getBlue(), o2hsb);
+                float ans;
                 if (sortValueChosen == 2) {//Check Hue
-                    if (sortBigToSmall) {
-                        float ans = (o1hsb[0] - o2hsb[0]);
+                    if (sortBigToSmall) ans = (o1hsb[0] - o2hsb[0]);
+                    else ans = (o2hsb[0] - o1hsb[0]);
                         if (ans < 0) return -1;
                         else if (ans > 0) return 1;
                         else return 0;
-                    } else {
-                        float ans = (o2hsb[0] - o1hsb[0]);
-                        if (ans < 0) return -1;
-                        else if (ans > 0) return 1;
-                        else return 0;
-                    }
-                } else if (sortValueChosen == 3) {//Check Saturation
-                    if (sortBigToSmall) {
-                        float ans = (o1hsb[1] - o2hsb[1]);
-                        if (ans < 0) return -1;
-                        else if (ans > 0) return 1;
-                        else return 0;
-                    } else {
-                        float ans = (o2hsb[1] - o1hsb[1]);
-                        if (ans < 0) return -1;
-                        else if (ans > 0) return 1;
-                        else return 0;
-                    }
-                }
-                if (sortValueChosen == 4) {//Check Brightness
-                    if (sortBigToSmall) {
-                        float ans = (o1hsb[2] - o2hsb[2]);
-                        if (ans < 0) return -1;
-                        else if (ans > 0) return 1;
-                        else return 0;
-                    } else {
-                        float ans = (o2hsb[2] - o1hsb[2]);
-                        if (ans < 0) return -1;
-                        else if (ans > 0) return 1;
-                        else return 0;
-                    }
-                }
-                return 0; //A catch if all us breaks down somehow
+                }else if (sortValueChosen == 3) {//Check Saturation
+                    if (sortBigToSmall) ans = (o1hsb[1] - o2hsb[1]);
+                    else ans = (o2hsb[1] - o1hsb[1]);
+                    if (ans < 0) return -1;
+                    else if (ans > 0) return 1;
+                    else return 0;
+                }if (sortValueChosen == 4) {//Check Brightness
+                    if (sortBigToSmall) ans = (o1hsb[2] - o2hsb[2]);
+                    else ans = (o2hsb[2] - o1hsb[2]);
+                    if (ans < 0) return -1;
+                    else if (ans > 0) return 1;
+                    else return 0;
+                }return 0; //A catch if all us breaks down somehow
             }
         }
     };
