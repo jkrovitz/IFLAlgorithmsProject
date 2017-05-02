@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class AlphaCode {
 
-    /**
+     /**
      * This is the part that actually runs, but mostly it just calls the DoTheSort fxn.
      *
      * @param args
@@ -126,8 +126,7 @@ public class AlphaCode {
             if (sortDirection == 1) sortHoriz(imgWidth, imgHeight, 0, 0);
             else sortVert(imgWidth, imgHeight, 0, 0);
         } else if (sortStyle == 2) tileSort();
-        else if (sortStyle == 4) doEdgeSort();
-        else if (sortStyle == 5) doRangeSort();
+        else if (sortStyle == 4 || sortStyle==5) doRangeSort();
     }
 
     /**
@@ -252,7 +251,8 @@ public class AlphaCode {
     }
 
     /**
-     * For option 5, when a particular range for the values is given, then this function
+     * For option 4 or, when a particular range for the values is given or if values
+     * are meant to be detirmed automatically by the algorithm, then this function
      * handles building and replacing rows/columns of the image. It calls a helper function
      * for the reordering of the arrays.
      */
@@ -301,27 +301,61 @@ public class AlphaCode {
         Color[] sortedc = new Color[c.length];
         Color[] tempArray;
         for (int i = 0; i < c.length; i++) {
-            if (sortValueChosen==5) current_value = c[i].getRed();
-            else if (sortValueChosen==6) current_value = c[i].getGreen();
-            else if (sortValueChosen==7) current_value = c[i].getBlue();
-            else{
-                float[] hsbval = Color.RGBtoHSB(c[i].getRed(),c[i].getGreen(),c[i].getBlue(),null);
-                if (sortValueChosen==2) current_value = hsbval[0];
-                else if (sortValueChosen==3) current_value = hsbval[1];
+            if (sortValueChosen == 5) current_value = c[i].getRed();
+            else if (sortValueChosen == 6) current_value = c[i].getGreen();
+            else if (sortValueChosen == 7) current_value = c[i].getBlue();
+            else {
+                float[] hsbval = Color.RGBtoHSB(c[i].getRed(), c[i].getGreen(), c[i].getBlue(), null);
+                if (sortValueChosen == 2) current_value = hsbval[0];
+                else if (sortValueChosen == 3) current_value = hsbval[1];
                 else current_value = hsbval[3];
             }//OK, now we've gotten whatever the hell value we wanted.
-            if (current_value<sortAttribute1 || current_value>sortAttribute2 || i==c.length-1) {//if the pixel value is outside the range that needs sorted
-                sortedc[i] = c[i];
-                if (start!=-1){//sort, then fill in all pixels in the previous set that were within bounds
-                    tempArray = Arrays.copyOfRange(c,start,i);
-                    Arrays.sort(tempArray,MyComparator);
-                    for (int j = 0; j < tempArray.length; j++) {
-                        sortedc[start+j] = tempArray[j];
-                    }start=-1;
+            if(sortStyle==5){//Predefined range:
+                if (current_value < sortAttribute1 || current_value > sortAttribute2 || i == c.length - 1) {//if the pixel value is outside the range that needs sorted
+                    sortedc[i] = c[i];
+                    if (start != -1) {//sort, then fill in all pixels in the previous set that were within bounds
+                        tempArray = Arrays.copyOfRange(c, start, i);
+                        Arrays.sort(tempArray, MyComparator);
+                        for (int j = 0; j < tempArray.length; j++) {
+                            sortedc[start + j] = tempArray[j];
+                        }
+                        start = -1;
+                    }
+                } else {
+                    if (start == -1) start = i;
                 }
-            }else{
-                if (start==-1) start=i;
+            }else{//Auto edge detect now
+                //Grab previous pixel vale for comparison
+                sortedc[0] = c[i];
+                if (i!=0) {
+                    float oldPixVal;
+                    if (sortValueChosen == 5) oldPixVal = c[i - 1].getRed();
+                    else if (sortValueChosen == 6) oldPixVal = c[i - 1].getGreen();
+                    else if (sortValueChosen == 7) oldPixVal = c[i - 1].getBlue();
+                    else {
+                        float[] hsbval = Color.RGBtoHSB(c[i - 1].getRed(), c[i - 1].getGreen(), c[i - 1].getBlue(), null);
+                        if (sortValueChosen == 2) oldPixVal = hsbval[0];
+                        else if (sortValueChosen == 3) oldPixVal = hsbval[1];
+                        else oldPixVal = hsbval[3];
+                    }
+                    if (current_value < oldPixVal - sortAttribute1 || current_value > oldPixVal + oldPixVal || i == c.length - 1) {//if the pixel value is outside the range that needs sorted
+                        sortedc[i] = c[i];
+                        if (start != -1) {//sort, then fill in all pixels in the previous set that were within bounds
+                            tempArray = Arrays.copyOfRange(c, start, i);
+                            Arrays.sort(tempArray, MyComparator);
+                            for (int j = 0; j < tempArray.length; j++) {
+                                sortedc[start + j] = tempArray[j];
+                            }
+                            start = -1;
+                        }
+                    } else {
+                        if (start == -1) start = i;
+                    }
+                }
             }
-        }return sortedc;
+        }
+
+        return sortedc;
+
     }
 }
