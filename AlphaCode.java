@@ -1,4 +1,4 @@
-/**
+/*
  * Forloopers Forever!!!
  * Because we're just invincible like that!
  * - Jeremy, probably
