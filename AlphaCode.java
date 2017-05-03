@@ -126,6 +126,7 @@ public class AlphaCode {
             if (sortDirection == 1) sortHoriz(imgWidth, imgHeight, 0, 0);
             else sortVert(imgWidth, imgHeight, 0, 0);
         } else if (sortStyle == 2) tileSort();
+        else if (sortStyle == 3) randomSort();
         else if (sortStyle == 4 || sortStyle==5) doRangeSort();
     }
 
@@ -139,19 +140,20 @@ public class AlphaCode {
             if (sortValueChosen == 5) {
                 if (sortBigToSmall) return o1.getRed() - o2.getRed();
                 else return o2.getRed() - o1.getRed();
-            } else if (sortValueChosen == 6) {
+            }else if (sortValueChosen == 6) {
                 if (sortBigToSmall) return o1.getGreen() - o2.getGreen();
                 else return o2.getGreen() - o1.getGreen();
-            } else if (sortValueChosen == 7) {
+            }else if (sortValueChosen == 7) {
                 if (sortBigToSmall) return o1.getBlue() - o2.getBlue();
                 else return o2.getBlue() - o1.getBlue();
-            } else {//Now, we make this work with HSV values
+            }else {//Now, we make this work with HSV values
                 float[] o1hsb = new float[3];//Building mini-arrays with the values
                 Color.RGBtoHSB(o1.getRed(), o1.getGreen(), o1.getBlue(), o1hsb);
                 float[] o2hsb = new float[3];
                 Color.RGBtoHSB(o2.getRed(), o2.getGreen(), o2.getBlue(), o2hsb);
                 float ans;
                 if (sortValueChosen == 2) {//Check Hue
+                    System.out.println(o1hsb[0]);
                     if (sortBigToSmall) ans = (o1hsb[0] - o2hsb[0]);
                     else ans = (o2hsb[0] - o1hsb[0]);
                         if (ans < 0) return -1;
@@ -169,7 +171,7 @@ public class AlphaCode {
                     if (ans < 0) return -1;
                     else if (ans > 0) return 1;
                     else return 0;
-                }return 0; //A catch if all us breaks down somehow
+                }return 0; //A catch in case this all us breaks down somehow
             }
         }
     };
@@ -185,8 +187,7 @@ public class AlphaCode {
                 int[] arr = new int[wide];
                 for (int h = 0; h < wide; h++) {//Iterate over each pixel in the column.
                     arr[h] = img.getRGB(h+TopLeftX,i+TopLeftY);
-                }
-                Color[] ColorArr = new Color[wide];
+                }Color[] ColorArr = new Color[wide];
                 for (int j = 0; j < arr.length; j++) {
                     ColorArr[j] = new Color(arr[j]);
                 }Arrays.sort(ColorArr, MyComparator);
@@ -246,8 +247,13 @@ public class AlphaCode {
         }
     }
 
-    private void doEdgeSort(){
-        //Check for edges
+    /**
+     * Quick function to generate a random tile size, then call the tile sorting function.
+     */
+    private void randomSort(){
+        int size = (int) (Math.random() * sortAttribute2 + sortAttribute1);
+        sortAttribute1 = size;//generate a new random size of chunk
+        tileSort();
     }
 
     /**
@@ -318,10 +324,9 @@ public class AlphaCode {
                         Arrays.sort(tempArray, MyComparator);
                         for (int j = 0; j < tempArray.length; j++) {
                             sortedc[start + j] = tempArray[j];
-                        }
-                        start = -1;
+                        }start = -1;
                     }
-                } else {
+                } else{//For when the value is in the range of needing sorted
                     if (start == -1) start = i;
                 }
             }else{//Auto edge detect now
@@ -337,25 +342,20 @@ public class AlphaCode {
                         if (sortValueChosen == 2) oldPixVal = hsbval[0];
                         else if (sortValueChosen == 3) oldPixVal = hsbval[1];
                         else oldPixVal = hsbval[3];
-                    }
-                    if (current_value < oldPixVal - sortAttribute1 || current_value > oldPixVal + oldPixVal || i == c.length - 1) {//if the pixel value is outside the range that needs sorted
+                    }if (current_value < oldPixVal - sortAttribute1 || current_value > oldPixVal + oldPixVal || i == c.length - 1) {//if the pixel value is outside the range that needs sorted
                         sortedc[i] = c[i];
                         if (start != -1) {//sort, then fill in all pixels in the previous set that were within bounds
                             tempArray = Arrays.copyOfRange(c, start, i);
                             Arrays.sort(tempArray, MyComparator);
                             for (int j = 0; j < tempArray.length; j++) {
                                 sortedc[start + j] = tempArray[j];
-                            }
-                            start = -1;
+                            }start = -1;
                         }
-                    } else {
+                    }else {
                         if (start == -1) start = i;
                     }
                 }
             }
-        }
-
-        return sortedc;
-
+        }return sortedc;
     }
 }
