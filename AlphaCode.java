@@ -5,6 +5,9 @@
  *
  * Shove it up your hashtable.
  * -Luke, shortly after
+ * 
+ * That moment when Luke steals my joke. 
+ * -Jeremy, in anguish 
  *
  * Created by Luke on 4/10/2017.
  */
