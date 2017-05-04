@@ -59,7 +59,7 @@ public class AlphaCode {
 
     /**
      * For now this function saves an output file, in a precise location on my machine.
-     * Change the location and file name to whatever you want.
+     * Change the location and file name to whatever you want for a different save file.
      *
      * @param pic
      */
@@ -106,12 +106,14 @@ public class AlphaCode {
         } else if (sortStyle == 4) {
             //ask for what tolerance for the chosen value.
             System.out.println("What tolerance (degree of variation) do you allow?");
+            //TODO: Clarify what values need entered here. 0-255 for RGB, probably 1-100 for Sat & Bright.
             sortAttribute1 = reader.nextInt();
         } else if (sortStyle == 5) {
             //ask for what what min and max values for the range for the chosen value.
             System.out.println("For the following questions, please follow these guidelines for answers:");
             System.out.println("For RGB values, please answer with a number between 0 and 255.");
-            System.out.println("for other stuff, please wait for a later version.");
+            System.out.println("For saturation or brightness, enter a number between one and 100");
+            //TODO: give user instructions on entering a hue value.
             System.out.println("What minimum value?");
             sortAttribute1 = reader.nextInt();
             System.out.println("What maximum value?");
@@ -156,7 +158,6 @@ public class AlphaCode {
                 Color.RGBtoHSB(o2.getRed(), o2.getGreen(), o2.getBlue(), o2hsb);
                 float ans;
                 if (sortValueChosen == 2) {//Check Hue
-                    System.out.println(o1hsb[0]);
                     if (sortBigToSmall) ans = (o1hsb[0] - o2hsb[0]);
                     else ans = (o2hsb[0] - o1hsb[0]);
                         if (ans < 0) return -1;
@@ -254,8 +255,7 @@ public class AlphaCode {
      * Quick function to generate a random tile size, then call the tile sorting function.
      */
     private void randomSort(){
-        int size = (int) (Math.random() * sortAttribute2 + sortAttribute1);
-        sortAttribute1 = size;//generate a new random size of chunk
+        sortAttribute1 = (int) (Math.random() * sortAttribute2 + sortAttribute1); //generate a new random size of chunk
         tileSort();
     }
 
@@ -318,7 +318,10 @@ public class AlphaCode {
                 if (sortValueChosen == 2) current_value = hsbval[0];
                 else if (sortValueChosen == 3) current_value = hsbval[1];
                 else current_value = hsbval[3];
-            }//OK, now we've gotten whatever the hell value we wanted.
+            }//Currently, RGB values match user input. HSB values need some minor alterations to match.
+            if (sortValueChosen==3||sortValueChosen==4) current_value = current_value*100;
+            //TODO: Sanitize the Hue input. Not sure how hue works.
+            //OK, now we've gotten whatever the hell value we wanted.
             if(sortStyle==5){//Predefined range:
                 if (current_value < sortAttribute1 || current_value > sortAttribute2 || i == c.length - 1) {//if the pixel value is outside the range that needs sorted
                     sortedc[i] = c[i];
@@ -329,7 +332,7 @@ public class AlphaCode {
                             sortedc[start + j] = tempArray[j];
                         }start = -1;
                     }
-                } else{//For when the value is in the range of needing sorted
+                }else{//For when the value is in the range of needing sorted
                     if (start == -1) start = i;
                 }
             }else{//Auto edge detect now
@@ -342,9 +345,9 @@ public class AlphaCode {
                     else if (sortValueChosen == 7) oldPixVal = c[i - 1].getBlue();
                     else {
                         float[] hsbval = Color.RGBtoHSB(c[i - 1].getRed(), c[i - 1].getGreen(), c[i - 1].getBlue(), null);
-                        if (sortValueChosen == 2) oldPixVal = hsbval[0];
-                        else if (sortValueChosen == 3) oldPixVal = hsbval[1];
-                        else oldPixVal = hsbval[3];
+                        if (sortValueChosen == 2) oldPixVal = hsbval[0];//TODO: Sanitize this value to match the user input scale as well.
+                        else if (sortValueChosen == 3) oldPixVal = hsbval[1]*100;
+                        else oldPixVal = hsbval[3]*100;
                     }if (current_value < oldPixVal - sortAttribute1 || current_value > oldPixVal + oldPixVal || i == c.length - 1) {//if the pixel value is outside the range that needs sorted
                         sortedc[i] = c[i];
                         if (start != -1) {//sort, then fill in all pixels in the previous set that were within bounds
