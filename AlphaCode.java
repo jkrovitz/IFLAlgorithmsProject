@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class AlphaCode {
 
-     /**
+    /**
      * This is the part that actually runs, but mostly it just calls the DoTheSort fxn.
      *
      * @param args
@@ -61,7 +61,7 @@ public class AlphaCode {
      */
     public void paint(BufferedImage pic) {
         try {
-            File outputfile = new File("C:\\Users\\Luke\\Pictures\\savedAndSorted.jpg");
+            File outputfile = new File("/Users/jkrovitz/Desktop/images-17sorted1.jpg"); //Be sure to enter the file path specific to your computer.
             ImageIO.write(pic, "jpg", outputfile);
         } catch (IOException e) {
         }
@@ -75,22 +75,22 @@ public class AlphaCode {
         System.out.println("Enter an image file path to pixel sort:");
         String imageName = reader.next(); // Scans the next token of the input.
         loadImage(imageName);
-        System.out.println("Choose your sorting Criteria: ");
+        System.out.println("Choose your sorting criteria: ");
         //ask for by which value: RGB, hue, saturation, or brightness
-        System.out.println("Enter 1 for an RGB value, 2 for hue, 3 for saturation, and 4 for brightness.");
+        System.out.println("Enter 1 for an RGB value, 2 for hue, 3 for saturation, or 4 for brightness.");
         sortValueChosen = reader.nextInt();
         if (sortValueChosen == 1) {//Ask for clarification if needed.
-            System.out.println("enter 5 for Red, 6 for Green, and 7 for Blue.");
+            System.out.println("Enter 5 for red, 6 for green, or 7 for blue.");
             sortValueChosen = reader.nextInt();
         }
-        System.out.println("Enter 1 to sort Biggest to Smallest, and 0 for smallest to biggest.");
+        System.out.println("Enter 1 to sort from biggest to smallest, or 0 to sort from smallest to biggest.");
         int direction = reader.nextInt();
         if (direction==1) sortBigToSmall = true;
         else sortBigToSmall = false;
-        System.out.println("enter 1 to sort a full row/column, 2 for a set size chunks, 3 for random size chunks, 4 for edge detection sorts, 5 to sort within a value range");
-        sortStyle = reader.nextInt();
-        System.out.println("enter 1 for horizontal pixel sorting, 2 for vertical sorts ");
+        System.out.println("Enter 1 for horizontal pixel sorting, or 2 for vertical sorting.");
         sortDirection = reader.nextInt();
+        System.out.println("Enter 1 to sort a full row or column, 2 for a set size of chunks, 3 for random size chunks, 4 for edge detection sorts, or 5 to sort within a value range.");
+        sortStyle = reader.nextInt();
 
         if (sortStyle == 2) {
             System.out.println("What size of chunks (in pixels)?"); //check for what size
@@ -101,9 +101,9 @@ public class AlphaCode {
             System.out.println("What maximum size of chunks (in pixels)?");
             sortAttribute2 = reader.nextInt();
         } else if (sortStyle == 4) {//ask for what tolerance for the chosen value for edge detection.
-            System.out.println("What tolerance (degree of variation) do you allow?");
-            System.out.println("For RGB values, this is a number 1-255, 1-100 for saturation/brightness, and 1-360 for hue.");
-            System.out.println("the lower the number, the more edges will be detected and the closer the result will be to the original.");
+            System.out.println("What tolerance (degree of variation) do would you like?");
+            System.out.println("(For RGB values, this is a number 1-255, 1-100 for saturation/brightness, and 1-360 for hue.)");
+            System.out.println("(The lower the number, the more edges that will be detected and the closer the result will be to the original image.)");
             sortAttribute1 = reader.nextInt();
         } else if (sortStyle == 5) {
             //ask for what what min and max values for the range for the chosen value.
@@ -112,9 +112,9 @@ public class AlphaCode {
             System.out.println("For saturation or brightness, enter a number between 1 and 100");
             System.out.println("For hue, enter a number between 1 and 360");
             System.out.println();
-            System.out.println("What minimum value?");
+            System.out.println("What is the minimum value?");
             sortAttribute1 = reader.nextInt();
-            System.out.println("What maximum value?");
+            System.out.println("What is the maximum value?");
             sortAttribute2 = reader.nextInt();
         }
     }
@@ -158,9 +158,9 @@ public class AlphaCode {
                 if (sortValueChosen == 2) {//Check Hue
                     if (sortBigToSmall) ans = (o1hsb[0] - o2hsb[0]);
                     else ans = (o2hsb[0] - o1hsb[0]);
-                        if (ans < 0) return -1;
-                        else if (ans > 0) return 1;
-                        else return 0;
+                    if (ans < 0) return -1;
+                    else if (ans > 0) return 1;
+                    else return 0;
                 }else if (sortValueChosen == 3) {//Check Saturation
                     if (sortBigToSmall) ans = (o1hsb[1] - o2hsb[1]);
                     else ans = (o2hsb[1] - o1hsb[1]);
@@ -185,19 +185,19 @@ public class AlphaCode {
      * @param high
      */
     private void sortHoriz(int wide, int high, int TopLeftX, int TopLeftY) {
-            for (int i = 0; i < high; i++) {
-                int[] arr = new int[wide];
-                for (int h = 0; h < wide; h++) {//Iterate over each pixel in the row.
-                    arr[h] = img.getRGB(h+TopLeftX,i+TopLeftY);
-                }Color[] ColorArr = new Color[wide]; //Create an array holding color values for each pixel
-                for (int j = 0; j < arr.length; j++) {
-                    ColorArr[j] = new Color(arr[j]);
-                }Arrays.sort(ColorArr, MyComparator); //Sort the sorry suckers, using our custom comparator.
-                for (int k = 0; k < arr.length; k++) {
-                    img.setRGB(k+TopLeftX,i+TopLeftY,ColorArr[k].getRGB());
-                }
+        for (int i = 0; i < high; i++) {
+            int[] arr = new int[wide];
+            for (int h = 0; h < wide; h++) {//Iterate over each pixel in the row.
+                arr[h] = img.getRGB(h+TopLeftX,i+TopLeftY);
+            }Color[] ColorArr = new Color[wide]; //Create an array holding color values for each pixel
+            for (int j = 0; j < arr.length; j++) {
+                ColorArr[j] = new Color(arr[j]);
+            }Arrays.sort(ColorArr, MyComparator); //Sort the sorry suckers, using our custom comparator.
+            for (int k = 0; k < arr.length; k++) {
+                img.setRGB(k+TopLeftX,i+TopLeftY,ColorArr[k].getRGB());
             }
         }
+    }
 
     /**
      * This does sorting in a vertical direction, for a passed in section size of the image.
@@ -205,22 +205,22 @@ public class AlphaCode {
      * @param high
      */
     private void sortVert(int wide, int high, int TopLeftX, int TopLeftY) {
-            for (int i = 0; i < wide; i++) {//iterate over each column, building an array of pixel colors in ints
-                int[] arr = new int[high];
-                for (int h = 0; h < high; h++) {//Iterate over each pixel in the column.
-                    arr[h] = img.getRGB(i+TopLeftX,h+TopLeftY);
-                }//create a new array of Color objects, for each pixel
-                Color[] ColorArr = new Color[high];
-                for (int j = 0; j < ColorArr.length; j++) {
-                    ColorArr[j] = new Color(arr[j]);
-                }//Now we sort, by using our custom comparator to choose between sort values.
-                Arrays.sort(ColorArr, MyComparator);
-                //Now, put the sorted Colors back into their columns
-                for (int k = 0; k < arr.length; k++) {
-                    img.setRGB(i+TopLeftX,k+TopLeftY,ColorArr[k].getRGB());
-                }
+        for (int i = 0; i < wide; i++) {//iterate over each column, building an array of pixel colors in ints
+            int[] arr = new int[high];
+            for (int h = 0; h < high; h++) {//Iterate over each pixel in the column.
+                arr[h] = img.getRGB(i+TopLeftX,h+TopLeftY);
+            }//create a new array of Color objects, for each pixel
+            Color[] ColorArr = new Color[high];
+            for (int j = 0; j < ColorArr.length; j++) {
+                ColorArr[j] = new Color(arr[j]);
+            }//Now we sort, by using our custom comparator to choose between sort values.
+            Arrays.sort(ColorArr, MyComparator);
+            //Now, put the sorted Colors back into their columns
+            for (int k = 0; k < arr.length; k++) {
+                img.setRGB(i+TopLeftX,k+TopLeftY,ColorArr[k].getRGB());
             }
         }
+    }
 
     /**
      * This function handles the options for any kind of tile sort, breaking the image into chunks
@@ -229,8 +229,8 @@ public class AlphaCode {
     private void tileSort(){
         //First, check that the user did not put too big of a chunk size (extra chunky).
         if (sortAttribute1>img.getWidth() || sortAttribute1>img.getHeight()) {
-                if (sortDirection == 1) sortHoriz(img.getWidth(), img.getHeight(), 0, 0);
-                else sortVert(img.getWidth(), img.getHeight(), 0, 0);
+            if (sortDirection == 1) sortHoriz(img.getWidth(), img.getHeight(), 0, 0);
+            else sortVert(img.getWidth(), img.getHeight(), 0, 0);
         }else{//Now, we get down to the business of subdividing chunks of the image at a time to do.
             for (int i = 0; i < img.getHeight()/sortAttribute1; i++) {//For each row of tiles
                 for (int j = 0; j < img.getWidth()/sortAttribute1; j++) {//For each tile in that row
@@ -297,7 +297,7 @@ public class AlphaCode {
         }
     }
 
-     /**
+    /**
      * This takes the array of colors, checks what the sort value is, and appropriately
      * Sorts within the range of attribute1 and attribute 2 if the user chose value range sort.
      * If not it checks the previous pixel's value to see if a major change occurred, implying an edge.
