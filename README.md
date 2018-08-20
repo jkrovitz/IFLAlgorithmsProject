@@ -1,4 +1,4 @@
-### Pixel Sorting 
+# Pixel Sorting 
 
 A project for Algorithm Design and Analysis (Macalester College Comp 221) completed by Luke Brown, Jeremy Krovitz, and Emma Thole. 
 
