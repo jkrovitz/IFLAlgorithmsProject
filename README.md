@@ -4,6 +4,7 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
 
 ## Installation
 
+### Downloading the Files
 1. Go to the [IFLAlgorithmsProject repository home page](https://github.com/jkrovitz/IFLAlgorithmsProject). 
 2. Press **Clone or Download**
 3. Click **Download Zip**
@@ -18,5 +19,6 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
     2.Select **IFLAlgorithmsProject-master**, which is now a compressed file. 
     3. Click **Extract** under Compressed Folder Tools. There should now be a folder that is ready to be imported into InteliJ IDEA. 
 
+### Downloading InteliJ IDEA
 
 ## Using the Software
