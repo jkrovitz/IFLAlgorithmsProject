@@ -11,6 +11,7 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
 4. Uncompress the the zip file. 
 
 ### Downloading InteliJ IDEA
+[Download IntelliJ IDEA](https://www.jetbrains.com/idea/) for your operating system. For assistance, consult [Install and set up IntelliJ IDEA](https://www.jetbrains.com/help/idea/install-and-set-up-product.html).
 
 
 ## Using the Software
