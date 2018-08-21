@@ -9,8 +9,7 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
 * The pixels in the image are reorganized and saved as a new image. 
 
 
-<img src="CentennialLakesBridgeOriginalImage.png" width="400" height="340.5">&nbsp;&nbsp;&nbsp;<img src="CentennialLakesBridgeSortedImage.png" width="400" height="340.5">
-
+<img src="originalAndPixelSortedComparison.png" width="400" height="340.5">	
 
 
 ## Installation
