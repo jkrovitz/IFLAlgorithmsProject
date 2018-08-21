@@ -9,7 +9,7 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
 * The pixels in the image are reorganized and saved as a new image. 
 
 
-<img src="originalAndPixelSortedComparison.png" width="400" height="340.5">	
+<img src="originalAndPixelSortedComparison.png" width="800">	
 
 
 ## Installation
