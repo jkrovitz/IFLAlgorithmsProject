@@ -2,9 +2,14 @@
 
 A project for Algorithm Design and Analysis (Macalester College Comp 221) completed by Luke Brown, Jeremy Krovitz, and Emma Thole. 
 
-_Pixel sorting algorithms are image processing methods that reoganize pixels in various ways to create altered images. 
+* Pixel sorting algorithms are image processing methods that reoganize pixels in various ways to create altered images. 
 
-<img src="CentennialLakesBridge.jpg" width="100" height="75">&nbsp;&nbsp;&nbsp;<img src="CentennialLakesBridgeSorted.jpg" width="100" height="75">
+* Using an image of their choice, a user selects their sorting criteria. and the algorithms sort the pixels in the image based on user selection.  
+
+* The pixels in the image are reorganized and saved as a new image. 
+
+
+<img src="CentennialLakesBridge.jpg" width="300" height="225">&nbsp;&nbsp;&nbsp;<img src="CentennialLakesBridgeSorted.jpg" width="300" height="225">
 
 
 
