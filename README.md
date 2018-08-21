@@ -2,6 +2,12 @@
 
 A project for Algorithm Design and Analysis (Macalester College Comp 221) completed by Luke Brown, Jeremy Krovitz, and Emma Thole. 
 
+_Pixel sorting algorithms are image processing methods that reoganize pixels in various ways to create altered images. 
+
+<img src="CentennialLakesBridge.jpg" width="100" height="75">&nbsp;&nbsp;&nbsp;<img src="CentennialLakesBridgeSorted.jpg" width="100" height="75">
+
+
+
 ## Installation
 
 ### Downloading the Files and Opening the Zip File
