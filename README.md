@@ -9,12 +9,12 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
 * The pixels in the image are reorganized and saved as a new image. 
 
 <p align="center">
-<img src="CentennialLakesBridgeOriginalImage.png" alt="Before pixel sort" width="550">	
+<img src="CentennialLakesBridgeOriginalImage.png" alt="Before pixel sort" width="300">	
+  
+  <img src="CentennialLakesBridgeSortedImage.png" alt="After pixel sort" width="300">	
   </p>
   
-  <p align="center">
-<img src="CentennialLakesBridgeSortedImage.png" alt="After pixel sort" width="550">	
-  </p>
+
 
 
 ## Installation
