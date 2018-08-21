@@ -8,8 +8,9 @@ A project for Algorithm Design and Analysis (Macalester College Comp 221) comple
 
 * The pixels in the image are reorganized and saved as a new image. 
 
-
+<p align="center">
 <img src="originalAndPixelSortedComparison.png" width="800">	
+  </p>
 
 
 ## Installation
